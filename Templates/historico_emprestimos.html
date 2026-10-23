@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Detalhes do Empréstimo - CredMais</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='historico_emprestimos.css') }}">
+        <link rel="icon" type="image/png" href="../static/uploads/LogoSoloCrediMais.png">
+    </head>
+    <body>
+
+        <header>
+            <div class="logo">
+               <img src="{{ url_for('static', filename='uploads/logo.png') }}"
+                 alt="Logo CredMais"
+                 class="logo">
+            </div>
+
+            <nav>
+                <a href="">Dashboard</a>
+                <a href="">Perfil</a>
+                <a href="#">Simulação</a>
+                <a class="ativo" href="{{ url_for('historico_emprestimos') }}">Empréstimos</a>
+                <a href="">Movimentações</a>
+            </nav>
+        </header>
+        <main class="pagina">
+
+            <section>
+                 <div class="titulo">
+                    <h1>Histórico de Empréstimos</h1>
+                </div>
+
+                <div>
+                    <a href="" class="botao_simular_emprestimo">Simular novo empréstimo </a>
+                </div>
+
+            <section class="tabela-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                        <th>Parcelas</th>
+                        <th>Risco</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in dados %}
+                    <tr class="linha-clicavel"
+                        onclick="window.location='{{ url_for('visualizar_movimentacao', id_mov=item.id) }}'">
+                        <td data-label="Data">{{ item.data }}</td>
+                        <td class="descricao">
+                            <a href="{{ url_for('visualizar_movimentacao', id_mov=item.id) }}">{{ item.descricao }}</a>
+                        </td>
+                        <td data-label="Classificação">{{ item.classificacao }}</td>
+                        <td class="categoria">{{ item.categoria }}</td>
+
+                        <td class="valor {{ item.classe }}">
+                            {{ item.sinal }}
+                            R$ {{ item.valor_texto }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Nenhuma empréstimo até o momento.</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="botoes-inferiores">
+                <a href="SUA_ROTA_DE_PDF" class="baixar_pdf">Baixar como PDF</a>
+                <a href="SUA_ROTA_DE_VOLTA" class="voltar">Voltar</a>
+            </div>
+            </section>
+        </main>
+    </body>
+</html>
